@@ -1,0 +1,52 @@
+import Link from "next/link";
+
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+
+export default function LoginPage() {
+  return (
+    <main className="flex min-h-screen items-center justify-center bg-muted px-5 py-10">
+      <Card className="w-full max-w-md">
+        <CardHeader>
+          <CardTitle>Log in</CardTitle>
+          <CardDescription>Access your Job Hub Pro workspace.</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <form className="space-y-5">
+            <div className="space-y-2">
+              <Label htmlFor="email">Email</Label>
+              <Input id="email" name="email" type="email" autoComplete="email" />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="password">Password</Label>
+              <Input
+                id="password"
+                name="password"
+                type="password"
+                autoComplete="current-password"
+              />
+            </div>
+            <Button className="w-full" type="button">
+              Log in
+            </Button>
+          </form>
+          <p className="mt-6 text-center text-sm text-muted-foreground">
+            New to Job Hub Pro?{" "}
+            <Link className="font-medium text-primary" href="/signup">
+              Create an account
+            </Link>
+          </p>
+        </CardContent>
+      </Card>
+    </main>
+  );
+}
+
