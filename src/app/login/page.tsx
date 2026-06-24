@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { login } from "@/app/login/actions";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -10,8 +11,18 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { getAuthErrorMessage } from "@/features/auth/auth-errors";
 
-export default function LoginPage() {
+type LoginPageProps = {
+  searchParams?: Promise<{
+    error?: string;
+  }>;
+};
+
+export default async function LoginPage({ searchParams }: LoginPageProps) {
+  const params = await searchParams;
+  const errorMessage = getAuthErrorMessage(params?.error);
+
   return (
     <main className="flex min-h-screen items-center justify-center bg-muted px-5 py-10">
       <Card className="w-full max-w-md">
@@ -20,7 +31,12 @@ export default function LoginPage() {
           <CardDescription>Access your Job Hub Pro workspace.</CardDescription>
         </CardHeader>
         <CardContent>
-          <form className="space-y-5">
+          {errorMessage ? (
+            <div className="mb-5 rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+              {errorMessage}
+            </div>
+          ) : null}
+          <form action={login} className="space-y-5">
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <Input id="email" name="email" type="email" autoComplete="email" />
@@ -34,7 +50,7 @@ export default function LoginPage() {
                 autoComplete="current-password"
               />
             </div>
-            <Button className="w-full" type="button">
+            <Button className="w-full" type="submit">
               Log in
             </Button>
           </form>
@@ -49,4 +65,3 @@ export default function LoginPage() {
     </main>
   );
 }
-

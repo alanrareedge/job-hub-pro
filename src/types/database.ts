@@ -142,7 +142,7 @@ export type Database = {
         ];
       };
     };
-    Views: Record<string, never>;
+    Views: {};
     Functions: {
       current_business_id: {
         Args: Record<PropertyKey, never>;
@@ -161,7 +161,7 @@ export type Database = {
         Returns: boolean;
       };
     };
-    Enums: Record<string, never>;
-    CompositeTypes: Record<string, never>;
+    Enums: {};
+    CompositeTypes: {};
   };
 };

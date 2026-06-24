@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { signup } from "@/app/signup/actions";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -10,8 +11,18 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { getAuthErrorMessage } from "@/features/auth/auth-errors";
 
-export default function SignupPage() {
+type SignupPageProps = {
+  searchParams?: Promise<{
+    error?: string;
+  }>;
+};
+
+export default async function SignupPage({ searchParams }: SignupPageProps) {
+  const params = await searchParams;
+  const errorMessage = getAuthErrorMessage(params?.error);
+
   return (
     <main className="flex min-h-screen items-center justify-center bg-muted px-5 py-10">
       <Card className="w-full max-w-md">
@@ -20,14 +31,19 @@ export default function SignupPage() {
           <CardDescription>Start a new Job Hub Pro business workspace.</CardDescription>
         </CardHeader>
         <CardContent>
-          <form className="space-y-5">
+          {errorMessage ? (
+            <div className="mb-5 rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+              {errorMessage}
+            </div>
+          ) : null}
+          <form action={signup} className="space-y-5">
             <div className="space-y-2">
               <Label htmlFor="business-name">Business name</Label>
               <Input id="business-name" name="businessName" autoComplete="organization" />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="name">Your name</Label>
-              <Input id="name" name="name" autoComplete="name" />
+              <Label htmlFor="full-name">Full name</Label>
+              <Input id="full-name" name="fullName" autoComplete="name" />
             </div>
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
@@ -42,7 +58,7 @@ export default function SignupPage() {
                 autoComplete="new-password"
               />
             </div>
-            <Button className="w-full" type="button">
+            <Button className="w-full" type="submit">
               Create account
             </Button>
           </form>
@@ -57,4 +73,3 @@ export default function SignupPage() {
     </main>
   );
 }
-
