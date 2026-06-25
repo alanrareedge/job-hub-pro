@@ -1,6 +1,8 @@
-import { ClipboardList, CreditCard, History, Wrench } from "lucide-react";
+import Link from "next/link";
+import { ClipboardList, CreditCard, History, Users, Wrench } from "lucide-react";
 import { redirect } from "next/navigation";
 
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -95,6 +97,15 @@ export default async function DashboardPage() {
             <span>User: {appUser.name ?? authUser.email}</span>
             <span>Role: {appUser.role}</span>
           </div>
+        </div>
+
+        <div className="mb-6">
+          <Button asChild variant="outline">
+            <Link href="/customers">
+              <Users className="mr-2 h-4 w-4" />
+              Customers
+            </Link>
+          </Button>
         </div>
 
         <div className="grid gap-4 sm:grid-cols-2">

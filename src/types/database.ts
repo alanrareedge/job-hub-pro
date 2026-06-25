@@ -28,7 +28,7 @@ export type Database = {
           user_agent?: string | null;
           user_id?: string | null;
         };
-        Update: never;
+        Update: Record<string, never>;
         Relationships: [
           {
             foreignKeyName: "audit_logs_business_id_fkey";
@@ -90,6 +90,63 @@ export type Database = {
           updated_at?: string;
         };
         Relationships: [];
+      };
+      customers: {
+        Row: {
+          archived_at: string | null;
+          business_id: string;
+          created_at: string;
+          created_by_user_id: string | null;
+          email: string | null;
+          first_name: string;
+          id: string;
+          last_name: string;
+          notes: string | null;
+          phone: string | null;
+          updated_at: string;
+        };
+        Insert: {
+          archived_at?: string | null;
+          business_id: string;
+          created_at?: string;
+          created_by_user_id?: string | null;
+          email?: string | null;
+          first_name: string;
+          id?: string;
+          last_name: string;
+          notes?: string | null;
+          phone?: string | null;
+          updated_at?: string;
+        };
+        Update: {
+          archived_at?: string | null;
+          business_id?: string;
+          created_at?: string;
+          created_by_user_id?: string | null;
+          email?: string | null;
+          first_name?: string;
+          id?: string;
+          last_name?: string;
+          notes?: string | null;
+          phone?: string | null;
+          updated_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "customers_business_id_fkey";
+            columns: ["business_id"];
+            isOneToOne: false;
+            referencedRelation: "businesses";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "customers_created_by_user_id_fkey";
+            columns: ["created_by_user_id"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+        ];
       };
       users: {
         Row: {
