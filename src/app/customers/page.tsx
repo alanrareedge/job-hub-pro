@@ -37,6 +37,10 @@ function getErrorMessage(error?: string) {
     return "Only owners can create customers at this stage.";
   }
 
+  if (error === "customer-not-found") {
+    return "We could not find that customer in this workspace.";
+  }
+
   return null;
 }
 
@@ -124,6 +128,11 @@ export default async function CustomersPage({ searchParams }: CustomersPageProps
                     <span>Email: {customer.email || "Not provided"}</span>
                     <span>Phone: {customer.phone || "Not provided"}</span>
                   </div>
+                  <div className="mt-4">
+                    <Button asChild variant="outline">
+                      <Link href={`/customers/${customer.id}/properties`}>Properties</Link>
+                    </Button>
+                  </div>
                 </CardContent>
               </Card>
             ))}
@@ -133,4 +142,3 @@ export default async function CustomersPage({ searchParams }: CustomersPageProps
     </main>
   );
 }
-

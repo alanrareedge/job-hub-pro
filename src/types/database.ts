@@ -148,6 +148,82 @@ export type Database = {
           },
         ];
       };
+      properties: {
+        Row: {
+          access_notes: string | null;
+          address_line_1: string;
+          address_line_2: string | null;
+          archived_at: string | null;
+          business_id: string;
+          county: string | null;
+          created_at: string;
+          created_by_user_id: string | null;
+          customer_id: string;
+          id: string;
+          notes: string | null;
+          postcode: string;
+          property_name: string | null;
+          town: string | null;
+          updated_at: string;
+        };
+        Insert: {
+          access_notes?: string | null;
+          address_line_1: string;
+          address_line_2?: string | null;
+          archived_at?: string | null;
+          business_id: string;
+          county?: string | null;
+          created_at?: string;
+          created_by_user_id?: string | null;
+          customer_id: string;
+          id?: string;
+          notes?: string | null;
+          postcode: string;
+          property_name?: string | null;
+          town?: string | null;
+          updated_at?: string;
+        };
+        Update: {
+          access_notes?: string | null;
+          address_line_1?: string;
+          address_line_2?: string | null;
+          archived_at?: string | null;
+          business_id?: string;
+          county?: string | null;
+          created_at?: string;
+          created_by_user_id?: string | null;
+          customer_id?: string;
+          id?: string;
+          notes?: string | null;
+          postcode?: string;
+          property_name?: string | null;
+          town?: string | null;
+          updated_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "properties_business_id_fkey";
+            columns: ["business_id"];
+            isOneToOne: false;
+            referencedRelation: "businesses";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "properties_created_by_user_id_fkey";
+            columns: ["created_by_user_id"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "properties_customer_id_fkey";
+            columns: ["customer_id"];
+            isOneToOne: false;
+            referencedRelation: "customers";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       users: {
         Row: {
           archived_at: string | null;
