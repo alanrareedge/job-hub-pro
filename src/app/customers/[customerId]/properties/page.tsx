@@ -48,6 +48,10 @@ function getErrorMessage(error?: string) {
     return "Only owners can create properties at this stage.";
   }
 
+  if (error === "property-not-found") {
+    return "We could not find that property in this workspace.";
+  }
+
   return null;
 }
 
@@ -172,6 +176,13 @@ export default async function CustomerPropertiesPage({
                   <p className="text-sm text-muted-foreground">
                     {getPropertyAddress(property)}
                   </p>
+                  <div className="mt-4">
+                    <Button asChild variant="outline">
+                      <Link href={`/customers/${customer.id}/properties/${property.id}/jobs`}>
+                        Jobs
+                      </Link>
+                    </Button>
+                  </div>
                 </CardContent>
               </Card>
             ))}
