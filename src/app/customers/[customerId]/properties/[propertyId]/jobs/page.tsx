@@ -133,7 +133,7 @@ export default async function PropertyJobsPage({
         <div className="mb-6 mt-4 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <p className="text-sm font-medium text-muted-foreground">
-              {property.customers.first_name} {property.customers.last_name} ·{" "}
+              {property.customers.first_name} {property.customers.last_name} -{" "}
               {getPropertyTitle(property)}
             </p>
             <h1 className="mt-1 text-3xl font-semibold tracking-normal">Jobs</h1>
@@ -190,6 +190,15 @@ export default async function PropertyJobsPage({
                   {job.description ? (
                     <p className="text-sm text-muted-foreground">{job.description}</p>
                   ) : null}
+                  <div>
+                    <Button asChild variant="outline">
+                      <Link
+                        href={`/customers/${customerId}/properties/${property.id}/jobs/${job.id}`}
+                      >
+                        View
+                      </Link>
+                    </Button>
+                  </div>
                 </CardContent>
               </Card>
             ))}

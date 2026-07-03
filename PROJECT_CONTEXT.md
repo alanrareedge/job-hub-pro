@@ -140,7 +140,37 @@ Properties:
 
 \* Job audit logging
 
+
+
+Future Architecture
+
+
+
+Communication AI
+
+\- Missed calls
+
+\- Follow-ups
+
+\- Reviews
+
+\- Appointment reminders
+
+
+
+Business Intelligence AI
+
+\- Pricing guidance
+
+\- Proposal guidance
+
+\- Property summaries
+
+\- Customer summaries
+
+\- Recommendations
+
+\- Service reminders
+
 \* Customer → Property → Job hierarchy complete
-
-
 
