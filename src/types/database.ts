@@ -228,6 +228,101 @@ export type Database = {
           },
         ];
       };
+      opportunities: {
+        Row: {
+          archived_at: string | null;
+          business_id: string;
+          created_at: string;
+          created_by_user_id: string | null;
+          customer_id: string;
+          description: string | null;
+          estimated_value: number | null;
+          id: string;
+          property_id: string;
+          status:
+            | "new"
+            | "site_visit_required"
+            | "pricing"
+            | "proposal_sent"
+            | "won"
+            | "lost";
+          target_date: string | null;
+          title: string;
+          updated_at: string;
+        };
+        Insert: {
+          archived_at?: string | null;
+          business_id: string;
+          created_at?: string;
+          created_by_user_id?: string | null;
+          customer_id: string;
+          description?: string | null;
+          estimated_value?: number | null;
+          id?: string;
+          property_id: string;
+          status?:
+            | "new"
+            | "site_visit_required"
+            | "pricing"
+            | "proposal_sent"
+            | "won"
+            | "lost";
+          target_date?: string | null;
+          title: string;
+          updated_at?: string;
+        };
+        Update: {
+          archived_at?: string | null;
+          business_id?: string;
+          created_at?: string;
+          created_by_user_id?: string | null;
+          customer_id?: string;
+          description?: string | null;
+          estimated_value?: number | null;
+          id?: string;
+          property_id?: string;
+          status?:
+            | "new"
+            | "site_visit_required"
+            | "pricing"
+            | "proposal_sent"
+            | "won"
+            | "lost";
+          target_date?: string | null;
+          title?: string;
+          updated_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "opportunities_business_id_fkey";
+            columns: ["business_id"];
+            isOneToOne: false;
+            referencedRelation: "businesses";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "opportunities_created_by_user_id_fkey";
+            columns: ["created_by_user_id"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "opportunities_customer_id_fkey";
+            columns: ["customer_id"];
+            isOneToOne: false;
+            referencedRelation: "customers";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "opportunities_property_id_fkey";
+            columns: ["property_id"];
+            isOneToOne: false;
+            referencedRelation: "properties";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       properties: {
         Row: {
           access_notes: string | null;

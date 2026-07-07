@@ -176,7 +176,14 @@ export default async function CustomerPropertiesPage({
                   <p className="text-sm text-muted-foreground">
                     {getPropertyAddress(property)}
                   </p>
-                  <div className="mt-4">
+                  <div className="mt-4 flex flex-col gap-3 sm:flex-row">
+                    <Button asChild variant="outline">
+                      <Link
+                        href={`/customers/${customer.id}/properties/${property.id}/opportunities`}
+                      >
+                        Opportunities
+                      </Link>
+                    </Button>
                     <Button asChild variant="outline">
                       <Link href={`/customers/${customer.id}/properties/${property.id}/jobs`}>
                         Jobs
