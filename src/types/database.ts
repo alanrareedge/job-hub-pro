@@ -323,6 +323,145 @@ export type Database = {
           },
         ];
       };
+      opportunity_pricing: {
+        Row: {
+          archived_at: string | null;
+          assumptions: string | null;
+          business_id: string;
+          created_at: string;
+          created_by_user_id: string | null;
+          customer_id: string;
+          customer_outcome: string | null;
+          exclusions: string | null;
+          id: string;
+          labour_fixed_cost: number;
+          labour_hours: number;
+          labour_people_count: number;
+          labour_rate: number;
+          labour_rate_type: "hourly" | "daily" | "fixed";
+          labour_units: number;
+          materials_cost: number;
+          opportunity_id: string;
+          other_cost: number;
+          plant_cost: number;
+          property_id: string;
+          proposal_notes: string | null;
+          risk_allowance_percent: number;
+          scope_notes: string | null;
+          subcontractor_cost: number;
+          target_margin_percent: number;
+          updated_at: string;
+          updated_by_user_id: string | null;
+          waste_cost: number;
+          work_type: string | null;
+        };
+        Insert: {
+          archived_at?: string | null;
+          assumptions?: string | null;
+          business_id: string;
+          created_at?: string;
+          created_by_user_id?: string | null;
+          customer_id: string;
+          customer_outcome?: string | null;
+          exclusions?: string | null;
+          id?: string;
+          labour_fixed_cost?: number;
+          labour_hours?: number;
+          labour_people_count?: number;
+          labour_rate?: number;
+          labour_rate_type?: "hourly" | "daily" | "fixed";
+          labour_units?: number;
+          materials_cost?: number;
+          opportunity_id: string;
+          other_cost?: number;
+          plant_cost?: number;
+          property_id: string;
+          proposal_notes?: string | null;
+          risk_allowance_percent?: number;
+          scope_notes?: string | null;
+          subcontractor_cost?: number;
+          target_margin_percent?: number;
+          updated_at?: string;
+          updated_by_user_id?: string | null;
+          waste_cost?: number;
+          work_type?: string | null;
+        };
+        Update: {
+          archived_at?: string | null;
+          assumptions?: string | null;
+          business_id?: string;
+          created_at?: string;
+          created_by_user_id?: string | null;
+          customer_id?: string;
+          customer_outcome?: string | null;
+          exclusions?: string | null;
+          id?: string;
+          labour_fixed_cost?: number;
+          labour_hours?: number;
+          labour_people_count?: number;
+          labour_rate?: number;
+          labour_rate_type?: "hourly" | "daily" | "fixed";
+          labour_units?: number;
+          materials_cost?: number;
+          opportunity_id?: string;
+          other_cost?: number;
+          plant_cost?: number;
+          property_id?: string;
+          proposal_notes?: string | null;
+          risk_allowance_percent?: number;
+          scope_notes?: string | null;
+          subcontractor_cost?: number;
+          target_margin_percent?: number;
+          updated_at?: string;
+          updated_by_user_id?: string | null;
+          waste_cost?: number;
+          work_type?: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "opportunity_pricing_business_id_fkey";
+            columns: ["business_id"];
+            isOneToOne: false;
+            referencedRelation: "businesses";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "opportunity_pricing_created_by_user_id_fkey";
+            columns: ["created_by_user_id"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "opportunity_pricing_customer_id_fkey";
+            columns: ["customer_id"];
+            isOneToOne: false;
+            referencedRelation: "customers";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "opportunity_pricing_opportunity_id_fkey";
+            columns: ["opportunity_id"];
+            isOneToOne: false;
+            referencedRelation: "opportunities";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "opportunity_pricing_property_id_fkey";
+            columns: ["property_id"];
+            isOneToOne: false;
+            referencedRelation: "properties";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "opportunity_pricing_updated_by_user_id_fkey";
+            columns: ["updated_by_user_id"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       properties: {
         Row: {
           access_notes: string | null;

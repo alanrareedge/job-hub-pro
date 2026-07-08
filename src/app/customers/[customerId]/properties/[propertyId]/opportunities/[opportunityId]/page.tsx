@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -50,10 +51,6 @@ type OpportunityDetailPageProps = {
 };
 
 const placeholderSections = [
-  {
-    title: "Pricing Engine",
-    description: "Coming in a future phase.",
-  },
   {
     title: "Proposal Builder",
     description: "Coming in a future phase.",
@@ -216,6 +213,24 @@ export default async function OpportunityDetailPage({
                     {opportunity.description || "Not provided"}
                   </p>
                 </div>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle>Pricing Engine</CardTitle>
+                <CardDescription>
+                  Work out what to charge before creating a proposal.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Button asChild variant="outline">
+                  <Link
+                    href={`/customers/${customerId}/properties/${property.id}/opportunities/${opportunity.id}/pricing`}
+                  >
+                    Open Pricing Engine
+                  </Link>
+                </Button>
               </CardContent>
             </Card>
 
