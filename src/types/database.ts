@@ -495,6 +495,323 @@ export type Database = {
           },
         ];
       };
+      proposal_options: {
+        Row: {
+          archived_at: string | null;
+          business_id: string;
+          created_at: string;
+          description: string | null;
+          id: string;
+          is_recommended: boolean;
+          label: string;
+          option_number: number;
+          price: number;
+          proposal_id: string;
+          title: string;
+          updated_at: string;
+        };
+        Insert: {
+          archived_at?: string | null;
+          business_id: string;
+          created_at?: string;
+          description?: string | null;
+          id?: string;
+          is_recommended?: boolean;
+          label: string;
+          option_number: number;
+          price?: number;
+          proposal_id: string;
+          title: string;
+          updated_at?: string;
+        };
+        Update: {
+          archived_at?: string | null;
+          business_id?: string;
+          created_at?: string;
+          description?: string | null;
+          id?: string;
+          is_recommended?: boolean;
+          label?: string;
+          option_number?: number;
+          price?: number;
+          proposal_id?: string;
+          title?: string;
+          updated_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "proposal_options_business_id_fkey";
+            columns: ["business_id"];
+            isOneToOne: false;
+            referencedRelation: "businesses";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "proposal_options_proposal_id_fkey";
+            columns: ["proposal_id"];
+            isOneToOne: false;
+            referencedRelation: "proposals";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      proposals: {
+        Row: {
+          archived_at: string | null;
+          business_id: string;
+          created_at: string;
+          created_by_user_id: string | null;
+          customer_id: string;
+          id: string;
+          internal_reference: string | null;
+          is_current: boolean;
+          opportunity_id: string;
+          pricing_id: string;
+          property_id: string;
+          proposal_number: string;
+          recommended_option_number: number;
+          snapshot_business_address_line_1: string | null;
+          snapshot_business_address_line_2: string | null;
+          snapshot_business_company_registration_number: string | null;
+          snapshot_business_contact_email: string | null;
+          snapshot_business_contact_phone: string | null;
+          snapshot_business_country: string | null;
+          snapshot_business_county: string | null;
+          snapshot_business_name: string;
+          snapshot_business_postcode: string | null;
+          snapshot_business_short_company_description: string | null;
+          snapshot_business_town: string | null;
+          snapshot_business_trading_name: string | null;
+          snapshot_business_vat_registration_number: string | null;
+          snapshot_customer_email: string | null;
+          snapshot_customer_first_name: string;
+          snapshot_customer_last_name: string;
+          snapshot_customer_phone: string | null;
+          snapshot_opportunity_description: string | null;
+          snapshot_opportunity_estimated_value: number | null;
+          snapshot_opportunity_status: string;
+          snapshot_opportunity_target_date: string | null;
+          snapshot_opportunity_title: string;
+          snapshot_pricing_assumptions: string | null;
+          snapshot_pricing_cost_before_profit: number;
+          snapshot_pricing_customer_outcome: string | null;
+          snapshot_pricing_exclusions: string | null;
+          snapshot_pricing_profit_target_percent: number;
+          snapshot_pricing_projected_profit: number;
+          snapshot_pricing_proposal_notes: string | null;
+          snapshot_pricing_recommended_selling_price: number;
+          snapshot_pricing_scope_notes: string | null;
+          snapshot_pricing_work_type: string | null;
+          snapshot_property_address_line_1: string;
+          snapshot_property_address_line_2: string | null;
+          snapshot_property_county: string | null;
+          snapshot_property_name: string | null;
+          snapshot_property_postcode: string;
+          snapshot_property_town: string | null;
+          status:
+            | "draft"
+            | "ready_to_send"
+            | "sent"
+            | "viewed"
+            | "accepted"
+            | "declined"
+            | "expired"
+            | "archived";
+          structure_type: "single" | "two_options" | "three_options";
+          title: string;
+          updated_at: string;
+          updated_by_user_id: string | null;
+          valid_until: string;
+          version_number: number;
+        };
+        Insert: {
+          archived_at?: string | null;
+          business_id: string;
+          created_at?: string;
+          created_by_user_id?: string | null;
+          customer_id: string;
+          id?: string;
+          internal_reference?: string | null;
+          is_current?: boolean;
+          opportunity_id: string;
+          pricing_id: string;
+          property_id: string;
+          proposal_number?: string;
+          recommended_option_number?: number;
+          snapshot_business_address_line_1?: string | null;
+          snapshot_business_address_line_2?: string | null;
+          snapshot_business_company_registration_number?: string | null;
+          snapshot_business_contact_email?: string | null;
+          snapshot_business_contact_phone?: string | null;
+          snapshot_business_country?: string | null;
+          snapshot_business_county?: string | null;
+          snapshot_business_name: string;
+          snapshot_business_postcode?: string | null;
+          snapshot_business_short_company_description?: string | null;
+          snapshot_business_town?: string | null;
+          snapshot_business_trading_name?: string | null;
+          snapshot_business_vat_registration_number?: string | null;
+          snapshot_customer_email?: string | null;
+          snapshot_customer_first_name: string;
+          snapshot_customer_last_name: string;
+          snapshot_customer_phone?: string | null;
+          snapshot_opportunity_description?: string | null;
+          snapshot_opportunity_estimated_value?: number | null;
+          snapshot_opportunity_status: string;
+          snapshot_opportunity_target_date?: string | null;
+          snapshot_opportunity_title: string;
+          snapshot_pricing_assumptions?: string | null;
+          snapshot_pricing_cost_before_profit?: number;
+          snapshot_pricing_customer_outcome?: string | null;
+          snapshot_pricing_exclusions?: string | null;
+          snapshot_pricing_profit_target_percent?: number;
+          snapshot_pricing_projected_profit?: number;
+          snapshot_pricing_proposal_notes?: string | null;
+          snapshot_pricing_recommended_selling_price?: number;
+          snapshot_pricing_scope_notes?: string | null;
+          snapshot_pricing_work_type?: string | null;
+          snapshot_property_address_line_1: string;
+          snapshot_property_address_line_2?: string | null;
+          snapshot_property_county?: string | null;
+          snapshot_property_name?: string | null;
+          snapshot_property_postcode: string;
+          snapshot_property_town?: string | null;
+          status?:
+            | "draft"
+            | "ready_to_send"
+            | "sent"
+            | "viewed"
+            | "accepted"
+            | "declined"
+            | "expired"
+            | "archived";
+          structure_type?: "single" | "two_options" | "three_options";
+          title: string;
+          updated_at?: string;
+          updated_by_user_id?: string | null;
+          valid_until: string;
+          version_number?: number;
+        };
+        Update: {
+          archived_at?: string | null;
+          business_id?: string;
+          created_at?: string;
+          created_by_user_id?: string | null;
+          customer_id?: string;
+          id?: string;
+          internal_reference?: string | null;
+          is_current?: boolean;
+          opportunity_id?: string;
+          pricing_id?: string;
+          property_id?: string;
+          proposal_number?: string;
+          recommended_option_number?: number;
+          snapshot_business_address_line_1?: string | null;
+          snapshot_business_address_line_2?: string | null;
+          snapshot_business_company_registration_number?: string | null;
+          snapshot_business_contact_email?: string | null;
+          snapshot_business_contact_phone?: string | null;
+          snapshot_business_country?: string | null;
+          snapshot_business_county?: string | null;
+          snapshot_business_name?: string;
+          snapshot_business_postcode?: string | null;
+          snapshot_business_short_company_description?: string | null;
+          snapshot_business_town?: string | null;
+          snapshot_business_trading_name?: string | null;
+          snapshot_business_vat_registration_number?: string | null;
+          snapshot_customer_email?: string | null;
+          snapshot_customer_first_name?: string;
+          snapshot_customer_last_name?: string;
+          snapshot_customer_phone?: string | null;
+          snapshot_opportunity_description?: string | null;
+          snapshot_opportunity_estimated_value?: number | null;
+          snapshot_opportunity_status?: string;
+          snapshot_opportunity_target_date?: string | null;
+          snapshot_opportunity_title?: string;
+          snapshot_pricing_assumptions?: string | null;
+          snapshot_pricing_cost_before_profit?: number;
+          snapshot_pricing_customer_outcome?: string | null;
+          snapshot_pricing_exclusions?: string | null;
+          snapshot_pricing_profit_target_percent?: number;
+          snapshot_pricing_projected_profit?: number;
+          snapshot_pricing_proposal_notes?: string | null;
+          snapshot_pricing_recommended_selling_price?: number;
+          snapshot_pricing_scope_notes?: string | null;
+          snapshot_pricing_work_type?: string | null;
+          snapshot_property_address_line_1?: string;
+          snapshot_property_address_line_2?: string | null;
+          snapshot_property_county?: string | null;
+          snapshot_property_name?: string | null;
+          snapshot_property_postcode?: string;
+          snapshot_property_town?: string | null;
+          status?:
+            | "draft"
+            | "ready_to_send"
+            | "sent"
+            | "viewed"
+            | "accepted"
+            | "declined"
+            | "expired"
+            | "archived";
+          structure_type?: "single" | "two_options" | "three_options";
+          title?: string;
+          updated_at?: string;
+          updated_by_user_id?: string | null;
+          valid_until?: string;
+          version_number?: number;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "proposals_business_id_fkey";
+            columns: ["business_id"];
+            isOneToOne: false;
+            referencedRelation: "businesses";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "proposals_created_by_user_id_fkey";
+            columns: ["created_by_user_id"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "proposals_customer_id_fkey";
+            columns: ["customer_id"];
+            isOneToOne: false;
+            referencedRelation: "customers";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "proposals_opportunity_id_fkey";
+            columns: ["opportunity_id"];
+            isOneToOne: false;
+            referencedRelation: "opportunities";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "proposals_pricing_id_fkey";
+            columns: ["pricing_id"];
+            isOneToOne: false;
+            referencedRelation: "opportunity_pricing";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "proposals_property_id_fkey";
+            columns: ["property_id"];
+            isOneToOne: false;
+            referencedRelation: "properties";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "proposals_updated_by_user_id_fkey";
+            columns: ["updated_by_user_id"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       properties: {
         Row: {
           access_notes: string | null;

@@ -10,6 +10,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { createClient } from "@/lib/supabase/server";
+import { createOrOpenProposal } from "./proposal/actions";
 
 type CurrentAppUser = {
   id: string;
@@ -48,13 +49,12 @@ type OpportunityDetailPageProps = {
     propertyId: string;
     opportunityId: string;
   }>;
+  searchParams?: Promise<{
+    error?: string;
+  }>;
 };
 
 const placeholderSections = [
-  {
-    title: "Proposal Builder",
-    description: "Coming in a future phase.",
-  },
   {
     title: "Convert to Job",
     description: "Available once the proposal is accepted.",
@@ -78,6 +78,17 @@ function formatDate(value: string | null) {
   return value ? new Date(value).toLocaleDateString("en-GB") : "Not provided";
 }
 
+function getErrorMessage(error?: string) {
+  switch (error) {
+    case "owner-required":
+      return "Only owners can create proposals at this stage.";
+    case "proposal-create-failed":
+      return "We could not create the proposal. Please try again.";
+    default:
+      return null;
+  }
+}
+
 function getPropertyTitle(property: PropertyContext) {
   return property.property_name || property.address_line_1;
 }
@@ -96,6 +107,7 @@ function getPropertyAddress(property: PropertyContext) {
 
 export default async function OpportunityDetailPage({
   params,
+  searchParams,
 }: OpportunityDetailPageProps) {
   const { customerId, propertyId, opportunityId } = await params;
   const supabase = await createClient();
@@ -152,6 +164,15 @@ export default async function OpportunityDetailPage({
     notFound();
   }
 
+  const query = await searchParams;
+  const errorMessage = getErrorMessage(query?.error);
+  const proposalAction = createOrOpenProposal.bind(
+    null,
+    customerId,
+    property.id,
+    opportunity.id,
+  );
+
   return (
     <main className="min-h-screen bg-muted px-5 py-8">
       <div className="mx-auto w-full max-w-6xl">
@@ -171,6 +192,12 @@ export default async function OpportunityDetailPage({
             {opportunity.title}
           </h1>
         </div>
+
+        {errorMessage ? (
+          <div className="mb-5 rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+            {errorMessage}
+          </div>
+        ) : null}
 
         <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(280px,360px)]">
           <div className="space-y-4">
@@ -231,6 +258,22 @@ export default async function OpportunityDetailPage({
                     Open Pricing Engine
                   </Link>
                 </Button>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle>Proposal</CardTitle>
+                <CardDescription>
+                  Create a draft proposal snapshot from this opportunity and its pricing.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <form action={proposalAction}>
+                  <Button type="submit" variant="outline">
+                    Create Proposal
+                  </Button>
+                </form>
               </CardContent>
             </Card>
 

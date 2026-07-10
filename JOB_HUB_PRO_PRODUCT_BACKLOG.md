@@ -290,3 +290,27 @@ Ideas that may or may not ever be built.
 
 \- Before/after galleries
 
+
+
+Proposal Analytics (Future)
+
+Acceptance rate by proposal type
+
+Acceptance rate by number of options
+
+Time from sent to viewed
+
+Time from viewed to accepted
+
+Most accepted proposal template
+
+Average accepted value
+
+Average margin by proposal type
+
+Heat map of customer interactions (future if web proposals support it)
+
+
+
+That could become an incredible differentiator.
+
