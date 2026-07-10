@@ -20,12 +20,23 @@ type CurrentAppUser = {
 type BusinessDetails = {
   id: string;
   name: string;
+  trading_name: string | null;
+  company_registration_number: string | null;
+  vat_registration_number: string | null;
+  website: string | null;
   email: string | null;
   phone: string | null;
+  mobile: string | null;
   address_line_1: string | null;
   address_line_2: string | null;
   town: string | null;
+  county: string | null;
   postcode: string | null;
+  country: string | null;
+  short_company_description: string | null;
+  about_business: string | null;
+  public_contact_email: string | null;
+  public_contact_phone: string | null;
 };
 
 type BusinessSettingsPageProps = {
@@ -39,10 +50,16 @@ function getErrorMessage(error?: string) {
   switch (error) {
     case "missing-fields":
       return "Business name is required.";
+    case "invalid-email":
+      return "Enter a valid email address.";
+    case "invalid-public-email":
+      return "Enter a valid public contact email address.";
+    case "invalid-website":
+      return "Enter a valid website URL starting with http:// or https://.";
     case "owner-required":
-      return "Only owners can update business details.";
+      return "Only owners can update the business profile.";
     case "update-failed":
-      return "We could not update the business details. Please try again.";
+      return "We could not update the business profile. Please try again.";
     default:
       return null;
   }
@@ -76,7 +93,9 @@ export default async function BusinessSettingsPage({
 
   const { data: businessData } = await supabase
     .from("businesses")
-    .select("id, name, email, phone, address_line_1, address_line_2, town, postcode")
+    .select(
+      "id, name, trading_name, company_registration_number, vat_registration_number, website, email, phone, mobile, address_line_1, address_line_2, town, county, postcode, country, short_company_description, about_business, public_contact_email, public_contact_phone",
+    )
     .eq("id", appUser.business_id)
     .is("archived_at", null)
     .single();
@@ -90,7 +109,7 @@ export default async function BusinessSettingsPage({
   const query = await searchParams;
   const errorMessage = getErrorMessage(query?.error);
   const successMessage =
-    query?.updated === "true" ? "Business details updated." : null;
+    query?.updated === "true" ? "Business profile updated." : null;
 
   return (
     <main className="min-h-screen bg-muted px-5 py-8">
@@ -100,9 +119,9 @@ export default async function BusinessSettingsPage({
         </Link>
         <Card className="mt-4">
           <CardHeader>
-            <CardTitle>Business details</CardTitle>
+            <CardTitle>Business Profile</CardTitle>
             <CardDescription>
-              Keep the core business information accurate for this workspace.
+              Keep the business identity accurate for this workspace.
             </CardDescription>
           </CardHeader>
           <CardContent>

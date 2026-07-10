@@ -139,9 +139,9 @@ export default async function SettingsPage() {
               <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-md bg-primary/10 text-primary">
                 <Building2 className="h-5 w-5" />
               </div>
-              <CardTitle className="text-xl">Business details</CardTitle>
+              <CardTitle className="text-xl">Business Profile</CardTitle>
               <CardDescription>
-                View and update the core information for this business.
+                View and update the core identity for this business.
               </CardDescription>
             </CardHeader>
             <CardContent>

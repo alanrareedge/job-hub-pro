@@ -19,17 +19,53 @@ function getString(formData: FormData, field: string) {
   return typeof value === "string" ? value.trim() : "";
 }
 
-export async function updateBusinessDetails(formData: FormData) {
+function isValidEmail(value: string) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+}
+
+function isValidWebsite(value: string) {
+  try {
+    const url = new URL(value);
+    return url.protocol === "http:" || url.protocol === "https:";
+  } catch {
+    return false;
+  }
+}
+
+export async function updateBusinessProfile(formData: FormData) {
   const name = getString(formData, "name");
+  const tradingName = getString(formData, "tradingName");
+  const companyRegistrationNumber = getString(formData, "companyRegistrationNumber");
+  const vatRegistrationNumber = getString(formData, "vatRegistrationNumber");
+  const website = getString(formData, "website");
   const email = getString(formData, "email");
   const phone = getString(formData, "phone");
+  const mobile = getString(formData, "mobile");
   const addressLine1 = getString(formData, "addressLine1");
   const addressLine2 = getString(formData, "addressLine2");
   const town = getString(formData, "town");
+  const county = getString(formData, "county");
   const postcode = getString(formData, "postcode");
+  const country = getString(formData, "country");
+  const shortCompanyDescription = getString(formData, "shortCompanyDescription");
+  const aboutBusiness = getString(formData, "aboutBusiness");
+  const publicContactEmail = getString(formData, "publicContactEmail");
+  const publicContactPhone = getString(formData, "publicContactPhone");
 
   if (!name) {
     redirect("/settings/business?error=missing-fields");
+  }
+
+  if (email && !isValidEmail(email)) {
+    redirect("/settings/business?error=invalid-email");
+  }
+
+  if (publicContactEmail && !isValidEmail(publicContactEmail)) {
+    redirect("/settings/business?error=invalid-public-email");
+  }
+
+  if (website && !isValidWebsite(website)) {
+    redirect("/settings/business?error=invalid-website");
   }
 
   const supabase = await createClient();
@@ -61,12 +97,23 @@ export async function updateBusinessDetails(formData: FormData) {
 
   const businessUpdate: BusinessUpdate = {
     name,
+    trading_name: tradingName || null,
+    company_registration_number: companyRegistrationNumber || null,
+    vat_registration_number: vatRegistrationNumber || null,
+    website: website || null,
     email: email || null,
     phone: phone || null,
+    mobile: mobile || null,
     address_line_1: addressLine1 || null,
     address_line_2: addressLine2 || null,
     town: town || null,
+    county: county || null,
     postcode: postcode || null,
+    country: country || null,
+    short_company_description: shortCompanyDescription || null,
+    about_business: aboutBusiness || null,
+    public_contact_email: publicContactEmail || null,
+    public_contact_phone: publicContactPhone || null,
   };
 
   const { error } = await supabase
@@ -88,12 +135,23 @@ export async function updateBusinessDetails(formData: FormData) {
     details: {
       business_id: appUser.business_id,
       name,
+      trading_name: tradingName || null,
+      company_registration_number: companyRegistrationNumber || null,
+      vat_registration_number: vatRegistrationNumber || null,
+      website: website || null,
       email: email || null,
       phone: phone || null,
+      mobile: mobile || null,
       address_line_1: addressLine1 || null,
       address_line_2: addressLine2 || null,
       town: town || null,
+      county: county || null,
       postcode: postcode || null,
+      country: country || null,
+      short_company_description: shortCompanyDescription || null,
+      about_business: aboutBusiness || null,
+      public_contact_email: publicContactEmail || null,
+      public_contact_phone: publicContactPhone || null,
     },
   };
 
