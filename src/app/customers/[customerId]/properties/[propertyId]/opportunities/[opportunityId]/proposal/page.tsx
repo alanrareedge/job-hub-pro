@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
+import type { ReactNode } from "react";
 
-import { Button } from "@/components/ui/button";
 import { createClient } from "@/lib/supabase/server";
 
 type CurrentAppUser = {
@@ -13,6 +13,12 @@ type CurrentAppUser = {
 type ProposalPreview = {
   id: string;
   proposal_number: string;
+  section_assumptions: string | null;
+  section_exclusions: string | null;
+  section_next_steps: string | null;
+  section_recommendation: string | null;
+  section_scope: string | null;
+  section_understanding: string | null;
   title: string;
   status: string;
   valid_until: string;
@@ -111,21 +117,34 @@ function getRecommendation(proposal: ProposalPreview) {
 
 function ProposalSection({
   children,
+  editHref,
   title,
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
+  editHref?: string;
   title: string;
 }) {
   return (
     <section className="border-t border-border pt-8">
-      <h2 className="text-xl font-semibold tracking-tight text-foreground">
-        {title}
-      </h2>
+      <div className="flex items-start justify-between gap-4">
+        <h2 className="text-xl font-semibold tracking-tight text-foreground">
+          {title}
+        </h2>
+        {editHref ? (
+          <Link className="text-sm font-medium text-primary" href={editHref}>
+            Edit
+          </Link>
+        ) : null}
+      </div>
       <div className="mt-4 text-base leading-8 text-muted-foreground">
         {children}
       </div>
     </section>
   );
+}
+
+function ProposalText({ children }: { children: string }) {
+  return <p className="whitespace-pre-line">{children}</p>;
 }
 
 export default async function ProposalPage({ params }: ProposalPageProps) {
@@ -159,6 +178,12 @@ export default async function ProposalPage({ params }: ProposalPageProps) {
       [
         "id",
         "proposal_number",
+        "section_assumptions",
+        "section_exclusions",
+        "section_next_steps",
+        "section_recommendation",
+        "section_scope",
+        "section_understanding",
         "title",
         "status",
         "valid_until",
@@ -210,6 +235,7 @@ export default async function ProposalPage({ params }: ProposalPageProps) {
   }
 
   const opportunityHref = `/customers/${customerId}/properties/${propertyId}/opportunities/${opportunityId}`;
+  const editHref = `${opportunityHref}/proposal/edit`;
 
   return (
     <main className="min-h-screen bg-background px-5 py-8 sm:px-8 sm:py-12">
@@ -268,19 +294,33 @@ export default async function ProposalPage({ params }: ProposalPageProps) {
           </header>
 
           <div className="mt-12 space-y-10">
-            <ProposalSection title="Understanding Your Project">
-              <p>{getUnderstanding(proposal)}</p>
+            <ProposalSection
+              editHref={`${editHref}/understanding`}
+              title="Understanding Your Project"
+            >
+              <ProposalText>
+                {proposal.section_understanding || getUnderstanding(proposal)}
+              </ProposalText>
             </ProposalSection>
 
-            <ProposalSection title="Our Recommendation">
-              <p>{getRecommendation(proposal)}</p>
+            <ProposalSection
+              editHref={`${editHref}/recommendation`}
+              title="Our Recommendation"
+            >
+              <ProposalText>
+                {proposal.section_recommendation || getRecommendation(proposal)}
+              </ProposalText>
             </ProposalSection>
 
-            <ProposalSection title="Scope of Work">
-              <p>
-                {proposal.snapshot_pricing_scope_notes ||
+            <ProposalSection
+              editHref={`${editHref}/scope`}
+              title="Scope of Work"
+            >
+              <ProposalText>
+                {proposal.section_scope ||
+                  proposal.snapshot_pricing_scope_notes ||
                   "Scope will be completed during proposal editing."}
-              </p>
+              </ProposalText>
             </ProposalSection>
 
             <ProposalSection title="Your Investment">
@@ -293,7 +333,7 @@ export default async function ProposalPage({ params }: ProposalPageProps) {
                     {option.title}
                   </h3>
                 </div>
-                <p>
+                <p className="whitespace-pre-line">
                   {option.description ||
                     "A short description will be added during proposal editing."}
                 </p>
@@ -303,33 +343,38 @@ export default async function ProposalPage({ params }: ProposalPageProps) {
               </div>
             </ProposalSection>
 
-            <ProposalSection title="Assumptions">
-              <p>
-                {proposal.snapshot_pricing_assumptions ||
+            <ProposalSection
+              editHref={`${editHref}/assumptions`}
+              title="Assumptions"
+            >
+              <ProposalText>
+                {proposal.section_assumptions ||
+                  proposal.snapshot_pricing_assumptions ||
                   "No assumptions have been added."}
-              </p>
+              </ProposalText>
             </ProposalSection>
 
-            <ProposalSection title="Exclusions">
-              <p>
-                {proposal.snapshot_pricing_exclusions ||
+            <ProposalSection
+              editHref={`${editHref}/exclusions`}
+              title="Exclusions"
+            >
+              <ProposalText>
+                {proposal.section_exclusions ||
+                  proposal.snapshot_pricing_exclusions ||
                   "No exclusions have been added."}
-              </p>
+              </ProposalText>
             </ProposalSection>
 
-            <ProposalSection title="What Happens Next">
-              <p>
-                If you are happy to proceed we will contact you to arrange the
-                next steps.
-              </p>
+            <ProposalSection
+              editHref={`${editHref}/next-steps`}
+              title="What Happens Next"
+            >
+              <ProposalText>
+                {proposal.section_next_steps ||
+                  "If you are happy to proceed we will contact you to arrange the next steps."}
+              </ProposalText>
             </ProposalSection>
           </div>
-
-          <footer className="mt-12 border-t border-border pt-8">
-            <Button disabled type="button">
-              Continue to Builder
-            </Button>
-          </footer>
         </article>
       </div>
     </main>

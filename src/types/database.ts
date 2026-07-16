@@ -570,6 +570,14 @@ export type Database = {
           property_id: string;
           proposal_number: string;
           recommended_option_number: number;
+          section_assumptions: string | null;
+          section_exclusions: string | null;
+          section_next_steps: string | null;
+          section_recommendation: string | null;
+          section_scope: string | null;
+          section_understanding: string | null;
+          sections_updated_at: string | null;
+          sections_updated_by_user_id: string | null;
           snapshot_business_address_line_1: string | null;
           snapshot_business_address_line_2: string | null;
           snapshot_business_company_registration_number: string | null;
@@ -638,6 +646,14 @@ export type Database = {
           property_id: string;
           proposal_number?: string;
           recommended_option_number?: number;
+          section_assumptions?: string | null;
+          section_exclusions?: string | null;
+          section_next_steps?: string | null;
+          section_recommendation?: string | null;
+          section_scope?: string | null;
+          section_understanding?: string | null;
+          sections_updated_at?: string | null;
+          sections_updated_by_user_id?: string | null;
           snapshot_business_address_line_1?: string | null;
           snapshot_business_address_line_2?: string | null;
           snapshot_business_company_registration_number?: string | null;
@@ -706,6 +722,14 @@ export type Database = {
           property_id?: string;
           proposal_number?: string;
           recommended_option_number?: number;
+          section_assumptions?: string | null;
+          section_exclusions?: string | null;
+          section_next_steps?: string | null;
+          section_recommendation?: string | null;
+          section_scope?: string | null;
+          section_understanding?: string | null;
+          sections_updated_at?: string | null;
+          sections_updated_by_user_id?: string | null;
           snapshot_business_address_line_1?: string | null;
           snapshot_business_address_line_2?: string | null;
           snapshot_business_company_registration_number?: string | null;
@@ -801,6 +825,13 @@ export type Database = {
             columns: ["property_id"];
             isOneToOne: false;
             referencedRelation: "properties";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "proposals_sections_updated_by_user_id_fkey";
+            columns: ["sections_updated_by_user_id"];
+            isOneToOne: false;
+            referencedRelation: "users";
             referencedColumns: ["id"];
           },
           {

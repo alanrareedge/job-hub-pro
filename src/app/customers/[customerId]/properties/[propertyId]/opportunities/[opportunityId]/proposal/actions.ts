@@ -3,6 +3,7 @@
 import { redirect } from "next/navigation";
 
 import { createClient } from "@/lib/supabase/server";
+import { getProposalSectionConfig } from "@/lib/proposal-sections";
 import type { Database } from "@/types/database";
 
 type CurrentAppUser = {
@@ -50,6 +51,7 @@ type OpportunitySnapshot = Pick<
 >;
 type PricingSnapshot = Database["public"]["Tables"]["opportunity_pricing"]["Row"];
 type ProposalInsert = Database["public"]["Tables"]["proposals"]["Insert"];
+type ProposalUpdate = Database["public"]["Tables"]["proposals"]["Update"];
 type ProposalOptionInsert = Database["public"]["Tables"]["proposal_options"]["Insert"];
 type AuditLogInsert = Database["public"]["Tables"]["audit_logs"]["Insert"];
 
@@ -347,6 +349,118 @@ export async function createOrOpenProposal(
       valid_until: validUntil,
       snapshot_recommended_selling_price:
         calculatedPricing.recommendedSellingPrice,
+    },
+  };
+
+  await supabase.from("audit_logs").insert([auditLogInsert] as never[]);
+
+  redirect(proposalRoute);
+}
+
+export async function updateProposalSection(
+  customerId: string,
+  propertyId: string,
+  opportunityId: string,
+  section: string,
+  formData: FormData,
+) {
+  const sectionConfig = getProposalSectionConfig(section);
+  const proposalRoute = `/customers/${customerId}/properties/${propertyId}/opportunities/${opportunityId}/proposal`;
+
+  if (!sectionConfig) {
+    redirect(proposalRoute);
+  }
+
+  const supabase = await createClient();
+  const {
+    data: { user: authUser },
+  } = await supabase.auth.getUser();
+
+  if (!authUser) {
+    redirect("/login");
+  }
+
+  const { data: appUserData } = await supabase
+    .from("users")
+    .select("id, business_id, role")
+    .eq("auth_user_id", authUser.id)
+    .eq("status", "active")
+    .is("archived_at", null)
+    .single();
+  const appUser = appUserData as CurrentAppUser | null;
+
+  if (!appUser) {
+    await supabase.auth.signOut();
+    redirect("/login?error=workspace-not-found");
+  }
+
+  if (appUser.role !== "owner") {
+    redirect(`${proposalRoute}?error=owner-required`);
+  }
+
+  const rawContent = formData.get("content");
+  const content =
+    typeof rawContent === "string" && rawContent.trim().length > 0
+      ? rawContent.trim()
+      : null;
+
+  const { data: proposalData } = await supabase
+    .from("proposals")
+    .select(`id, ${sectionConfig.field}`)
+    .eq("business_id", appUser.business_id)
+    .eq("customer_id", customerId)
+    .eq("property_id", propertyId)
+    .eq("opportunity_id", opportunityId)
+    .eq("is_current", true)
+    .is("archived_at", null)
+    .order("version_number", { ascending: false })
+    .limit(1)
+    .single();
+  const proposal = proposalData as
+    | ({ id: string } & Record<typeof sectionConfig.field, string | null>)
+    | null;
+
+  if (!proposal) {
+    redirect(proposalRoute);
+  }
+
+  const previousContent = proposal[sectionConfig.field];
+  const updatePayload = {
+    [sectionConfig.field]: content,
+    sections_updated_at: new Date().toISOString(),
+    sections_updated_by_user_id: appUser.id,
+    updated_by_user_id: appUser.id,
+  } as ProposalUpdate;
+
+  const { error: updateError } = await supabase
+    .from("proposals")
+    .update(updatePayload as never)
+    .eq("id", proposal.id)
+    .eq("business_id", appUser.business_id)
+    .eq("customer_id", customerId)
+    .eq("property_id", propertyId)
+    .eq("opportunity_id", opportunityId)
+    .eq("is_current", true)
+    .is("archived_at", null);
+
+  if (updateError) {
+    redirect(`${proposalRoute}/edit/${section}?error=section-update-failed`);
+  }
+
+  const auditLogInsert: AuditLogInsert = {
+    business_id: appUser.business_id,
+    user_id: appUser.id,
+    entity_type: "proposal",
+    entity_id: proposal.id,
+    action: "proposal.section.updated",
+    details: {
+      proposal_id: proposal.id,
+      section_name: section,
+      customer_id: customerId,
+      property_id: propertyId,
+      opportunity_id: opportunityId,
+      had_previous_custom_content: Boolean(previousContent),
+      has_new_custom_content: Boolean(content),
     },
   };
 
